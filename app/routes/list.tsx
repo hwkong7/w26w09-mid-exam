@@ -48,39 +48,42 @@ export default function List() {
     }
   })
 
-  if (isPending) return <div>로딩 중...</div>
+  if (isPending) return <div className="state-card" role="status">로딩 중...</div>
 
-  if (isError) return <div>에러: {error.message}</div>
-
-  if (myList.length == 0)
-    return <div>하고 싶은 일이 없습니다.</div>
+  if (isError) return <div className="state-card state-error" role="alert">에러: {error.message}</div>
 
   return (
     <>
-      <form className="m-2 p-4 border flex justify-between"
+      <form className="plan-form"
         onSubmit={e => {
           e.preventDefault()
           mutate.mutate(title)
         }}>
+        <label className="input-label" htmlFor="plan-title">졸업 전, 꼭 남기고 싶은 추억은?</label>
+        <div className="input-row">
         <input
+          id="plan-title"
           type="text"
           value={title}
-          placeholder="하고 싶은 일 (*)"
+          placeholder="졸업 전에 하고 싶은 일 (*)"
           onChange={e => setTitle(e.target.value)}
           required
-          className="w-full"
+          className="plan-input"
         />
         <button
           type="submit"
           disabled={mutate.isPending}
-          className="shrink-0 p-2 bg-violet-600">
+          className="add-button">
           추가
         </button>
+        </div>
       </form>
 
-      <div className="p-4 space-y-2">
+      <div className="list-heading"><h2>나의 졸업 버킷리스트</h2><span>총 {myList.length}개의 버킷리스트</span></div>
+      {myList.length == 0 && <div className="state-card">아직 등록된 버킷리스트가 없어요.</div>}
+      <div className="plan-grid">
         {myList.map((p: any) => (
-          <div key={p.id}>{p.title}</div>
+          <div className="plan-card" key={p.id}><span className="card-mark" aria-hidden="true">✦</span><p>{p.title}</p></div>
         ))}
       </div>
     </>

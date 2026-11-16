@@ -6,8 +6,8 @@ import type { Route } from "./+types/header";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "중간고사" },
-    { name: "description", content: "시험 끝나고 하고 싶은 일" },
+    { title: "졸업 전에 하고 싶은 일" },
+    { name: "description", content: "졸업 전에 하고 싶은 일 — 대학생으로 보내는 마지막 시간, 후회 없이 채워보기" },
   ]
 }
 
@@ -34,14 +34,18 @@ export default function Header() {
   const user = useAuthStore(s => s.user)
 
   return (
-    <div>
-      <header className="header bg-violet-900 text-white p-4">
-        <h1>시험 끝나고 하고 싶은 일 {user?.email}</h1>
+    <div className="app-shell" lang="ko">
+      <header className="page-header">
+        <p className="eyebrow">MY GRADUATION BUCKET LIST</p>
+        <h1><span aria-hidden="true">🎓</span> 졸업 전에 하고 싶은 일</h1>
+        <p className="subtitle">대학생으로 보내는 마지막 시간, 후회 없이 채워보기</p>
+        {user && <p className="account">나의 버킷리스트 · {user.email}</p>}
       </header>
 
-      <main>
+      <main className="page-content">
         <Outlet />
       </main>
+      <footer className="page-footer">작은 바람이 모여, 오래 기억할 추억이 되도록.</footer>
     </div>
   )
 }
